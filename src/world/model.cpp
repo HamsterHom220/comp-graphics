@@ -1,69 +1,44 @@
-#define TINYOBJLOADER_IMPLEMENTATION
+#pragma once
 
-#include "model.h"
-
-#include "utils/error_handler.h"
-
-#include <linalg.h>
+#include "settings.h"
+#include "world/camera.h"
+#include "world/model.h"
 
 
-using namespace linalg::aliases;
-using namespace cg::world;
-
-cg::world::model::model() {}
-
-cg::world::model::~model() {}
-
-void cg::world::model::load_obj(const std::filesystem::path& model_path)
+namespace cg::renderer
 {
-	// TODO Lab: 1.03 Using `tinyobjloader` implement `load_obj`, `allocate_buffers`, `compute_normal`, `fill_vertex_data`, and `fill_buffers` methods of `cg::world::model` class
-}
+	class renderer
+	{
+	public:
+		void set_settings(std::shared_ptr<cg::settings> in_settings);
 
-void model::allocate_buffers(const std::vector<tinyobj::shape_t>& shapes)
-{
-	// TODO Lab: 1.03 Using `tinyobjloader` implement `load_obj`, `allocate_buffers`, `compute_normal`, `fill_vertex_data`, and `fill_buffers` methods of `cg::world::model` class
-}
+		unsigned get_height();
+		unsigned get_width();
 
-float3 cg::world::model::compute_normal(const tinyobj::attrib_t& attrib, const tinyobj::mesh_t& mesh, size_t index_offset)
-{
-	// TODO Lab: 1.03 Using `tinyobjloader` implement `load_obj`, `allocate_buffers`, `compute_normal`, `fill_vertex_data`, and `fill_buffers` methods of `cg::world::model` class
-	return float3{};
-}
+		virtual void init() = 0;
+		virtual void destroy() = 0;
 
-void model::fill_vertex_data(cg::vertex& vertex, const tinyobj::attrib_t& attrib, const tinyobj::index_t idx, const float3 computed_normal, const tinyobj::material_t material)
-{
-	// TODO Lab: 1.03 Using `tinyobjloader` implement `load_obj`, `allocate_buffers`, `compute_normal`, `fill_vertex_data`, and `fill_buffers` methods of `cg::world::model` class
-}
+		virtual void update() = 0;
+		virtual void render() = 0;
 
-void model::fill_buffers(const std::vector<tinyobj::shape_t>& shapes, const tinyobj::attrib_t& attrib, const std::vector<tinyobj::material_t>& materials, const std::filesystem::path& base_folder)
-{
-	// TODO Lab: 1.03 Using `tinyobjloader` implement `load_obj`, `allocate_buffers`, `compute_normal`, `fill_vertex_data`, and `fill_buffers` methods of `cg::world::model` class
-}
+		void move_forward(float delta = 0.01f);
+		void move_backward(float delta = 0.01f);
+		void move_left(float delta = 0.01f);
+		void move_right(float delta = 0.01f);
+		void move_yaw(float delta = 0.f);
+		void move_pitch(float delta = 0.f);
 
+	protected:
+		std::shared_ptr<cg::settings> settings;
 
-const std::vector<std::shared_ptr<cg::resource<cg::vertex>>>&
-cg::world::model::get_vertex_buffers() const
-{
-	return vertex_buffers;
-}
+		std::shared_ptr<cg::world::camera> camera;
+		std::shared_ptr<cg::world::model> model;
 
-const std::vector<std::shared_ptr<cg::resource<unsigned int>>>&
-cg::world::model::get_index_buffers() const
-{
-	return index_buffers;
-}
-
-const std::vector<std::filesystem::path>& cg::world::model::get_per_shape_texture_files() const
-{
-	return textures;
-}
+		std::chrono::time_point<std::chrono::high_resolution_clock> current_time =
+				std::chrono::high_resolution_clock::now();
+		float frame_duration = 0.f;
+	};
 
 
-const float4x4 cg::world::model::get_world_matrix() const
-{
-	return float4x4{
-			{1, 0, 0, 0},
-			{0, 1, 0, 0},
-			{0, 0, 1, 0},
-			{0, 0, 0, 1}};
-}
+	extern std::shared_ptr<renderer> make_renderer(std::shared_ptr<cg::settings> settings);
+}// namespace cg::renderer
