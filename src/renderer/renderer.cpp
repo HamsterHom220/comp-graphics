@@ -14,7 +14,6 @@
 #include "renderer/dx12/dx12_renderer.h"
 #endif
 
-
 using namespace cg::renderer;
 
 void cg::renderer::renderer::set_settings(std::shared_ptr<cg::settings> in_settings)
@@ -71,8 +70,7 @@ void cg::renderer::renderer::move_backward(float delta)
 void cg::renderer::renderer::move_left(float delta)
 {
 	camera->set_position(
-			camera->get_position()
-			- camera->get_right() * delta * frame_duration);
+			camera->get_position() - camera->get_right() * delta * frame_duration);
 }
 
 void cg::renderer::renderer::move_right(float delta)

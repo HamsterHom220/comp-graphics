@@ -96,7 +96,7 @@ const DirectX::XMMATRIX camera::get_dxm_mvp_matrix() const
 
 const float4x4 cg::world::camera::get_projection_matrix() const
 {
-	float f = 1.f / tanf(angle_of_view / 2);
+	float f = 1.f / tanf(angle_of_view / 2.f);
 	return float4x4{
 			{f / aspect_ratio, 0, 0, 0},
 			{0, f, 0, 0},
@@ -119,7 +119,7 @@ const float3 cg::world::camera::get_direction() const
 
 const float3 cg::world::camera::get_right() const
 {
-	return cross(get_direction(), float3{0, 1, 0});
+	return cross(get_direction(), float3(0, 1, 0));
 }
 
 const float3 cg::world::camera::get_up() const
