@@ -157,7 +157,7 @@ namespace cg::renderer
 	{
 		// TODO Lab: 2.01 Implement `set_render_target`, `set_viewport`, and `clear_render_target` methods of `raytracer` class
 		// TODO Lab: 2.06 Add `history` resource in `raytracer` class
-		for (size_t i = 0; i < render_target->get_number_of_elements(); i++) {
+		for (size_t i = 0; i < render_target->count(); i++) {
 			render_target->item(i) = in_clear_value;
 			history->item(i) = float3{0, 0, 0};
 		}
@@ -187,7 +187,7 @@ namespace cg::renderer
 			auto& vertex_buffer = vertex_buffers[shape_id];
 			size_t index_id = 0;
 			aabb<VB> aabb;
-			while (index_id < index_buffer->get_number_of_elements()) {
+			while (index_id < index_buffer->count()) {
 				triangle<VB> triangle(
 						vertex_buffer->item(index_buffer->item(index_id++)),
 						vertex_buffer->item(index_buffer->item(index_id++)),
