@@ -310,7 +310,7 @@ void cg::renderer::dx12_renderer::create_pso(const std::string& shader_name)
 
 	THROW_IF_FAILED(device->CreateGraphicsPipelineState(
 			&pso_desc,
-			IID_PPV_ARGS(&pipeline_state)));
+			IID_PPV_ARGS(pipeline_state.GetAddressOf())));
 }
 
 void cg::renderer::dx12_renderer::create_resource_on_upload_heap(ComPtr<ID3D12Resource>& resource, UINT size, const std::wstring& name)
